@@ -10,7 +10,7 @@
     {
         private List<AppUserEntity> _users = new List<AppUserEntity>
         {
-            new AppUserEntity { Id = Guid.Empty, FirstName = "Test", LastName = "User", UserName = "test", PasswordHash = "test" }
+            new AppUserEntity { Id = Guid.Empty, UserName = "test", PasswordHash = "test" }
         };
 
 
@@ -20,8 +20,6 @@
 
             var result = new User
             {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
                 Id = user.Id,
             };
 
@@ -36,8 +34,6 @@
 
             return new User
             {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
                 Token = null,
                 Id = user.Id
             };

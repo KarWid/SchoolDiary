@@ -3,7 +3,6 @@
     using System;
     using SchoolDiary.Common.Models;
     using SchoolDiary.Repositories.EntityFramework;
-    using SchoolDiary.Repositories.EntityFramework.Entities;
 
     public interface IUserManager
     {
@@ -13,11 +12,11 @@
 
     public class UserManager : IUserManager
     {
-        private readonly IRepository<AppUserEntity> _appUserRepository;
+        private readonly IRepository _repository;
 
-        public UserManager(IRepository<AppUserEntity> appUserRepository)
+        public UserManager(IRepository repository)
         {
-            _appUserRepository = appUserRepository;
+            _repository = repository;
         }
 
         public User Authenticate(string username, string password)

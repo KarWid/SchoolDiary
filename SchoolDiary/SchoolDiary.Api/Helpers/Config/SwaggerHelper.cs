@@ -2,10 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
-    using System.Reflection;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.OpenApi.Models;
+    using Swashbuckle.AspNetCore.Swagger;
 
     public static class SwaggerHelper
     {
@@ -64,6 +63,7 @@
                 //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 //c.IncludeXmlComments(xmlPath);
+                c.AddFluentValidationRules();
             });
         }
     }

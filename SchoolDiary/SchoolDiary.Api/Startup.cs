@@ -1,5 +1,6 @@
 namespace SchoolDiary.Api
 {
+    using FluentValidation.AspNetCore;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,9 @@ namespace SchoolDiary.Api
     using SchoolDiary.Api.Services;
     using SchoolDiary.Common.Managers;
     using SchoolDiary.Common.Managers.Fake;
+    using SchoolDiary.Common.Models;
     using SchoolDiary.Common.Services;
+    using SchoolDiary.Repositories.EntityFramework;
 
     public class Startup
     {
@@ -28,6 +31,7 @@ namespace SchoolDiary.Api
         {
             //services.AddCors(); // TODO: to allow only for one url
             services.AddControllers();
+            services.AddMvc().AddFluentValidation(o => o.RegisterValidatorsFromAssemblyContaining<UserValidator>());
 
             services.AddApiVersioning(o =>
             {
@@ -45,8 +49,11 @@ namespace SchoolDiary.Api
             services.AddScoped<ITimeService, TimeService>();
             services.AddScoped<ITokenService, TokenService>();
 
-            //managers
+            // Managers
             services.AddScoped<IUserManager, FakeUserManager>();
+
+            // Others
+            services.AddScoped<IRepository, Repository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
