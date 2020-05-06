@@ -167,16 +167,6 @@ namespace SchoolDiary.Repositories.EntityFramework.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
 

@@ -3,42 +3,63 @@
     using System;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
 
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository
     {
-        int Count();
-        Task<int> CountAsync();
-        IQueryable<TEntity> FilterBy(Expression<Func<TEntity, bool>> filter);
-        IQueryable<TEntity> Skip(int skip);
-        IQueryable<TEntity> Take(int take);
+        TEntity Add<TEntity>(TEntity entity) where TEntity : class;
+        bool Delete<TEntity>(TEntity entity) where TEntity : class;
+        IQueryable<TEntity> FilterBy<TEntity>(Expression<Func<TEntity, bool>> filter) where TEntity : class;
+        int SaveChanges();
+        Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        TEntity Update<TEntity>(TEntity entity) where TEntity : class;
     }
 
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository : IRepository
     {
-        public int Count()
+        private readonly SchoolDiaryDbContext _dbContext;
+        public Repository(SchoolDiaryDbContext schoolDiaryDbContext)
         {
-            throw new NotImplementedException();
+            _dbContext = schoolDiaryDbContext;
         }
 
-        public Task<int> CountAsync()
+        public TEntity Add<TEntity>(TEntity entity) where TEntity : class
         {
-            throw new NotImplementedException();
+            return _dbContext.Set<TEntity>().Add(entity).Entity;
         }
 
-        public IQueryable<TEntity> FilterBy(Expression<Func<TEntity, bool>> filter)
+        public bool Delete<TEntity>(TEntity entity) where TEntity : class
         {
-            throw new NotImplementedException();
+            var entityEntry = _dbContext.Set<TEntity>().Remove(entity);
+            return entityEntry.State == EntityState.Deleted;
         }
 
-        public IQueryable<TEntity> Skip(int skip)
+        public IQueryable<TEntity> FilterBy<TEntity>(Expression<Func<TEntity, bool>> filter) where TEntity : class
         {
-            throw new NotImplementedException();
+            return _dbContext.Set<TEntity>().Where(filter);
         }
 
-        public IQueryable<TEntity> Take(int take)
+        public int SaveChanges()
         {
-            throw new NotImplementedException();
+            return _dbContext.SaveChanges();
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            return await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public TEntity Update<TEntity>(TEntity updated) where TEntity : class
+        {
+            return _dbContext.Set<TEntity>().Update(updated).Entity;
         }
     }
 }

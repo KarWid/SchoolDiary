@@ -10,7 +10,7 @@ using SchoolDiary.Repositories.EntityFramework;
 namespace SchoolDiary.Repositories.EntityFramework.Migrations
 {
     [DbContext(typeof(SchoolDiaryDbContext))]
-    [Migration("20200501155704_Init")]
+    [Migration("20200504204833_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -168,16 +168,6 @@ namespace SchoolDiary.Repositories.EntityFramework.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
